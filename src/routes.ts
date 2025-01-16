@@ -1,3 +1,4 @@
+import { findAllOrders } from './repository'
 import { FastifyPluginAsync } from 'fastify'
 
 const routes: FastifyPluginAsync = async server => {
@@ -5,9 +6,8 @@ const routes: FastifyPluginAsync = async server => {
         {
             preValidation: server.jwtAuth(['admin'])
         },
-        async (request, response) => {
-            console.log('GET')
-        })
+        async () => findAllOrders()
+    )
 }
 
 export default routes
