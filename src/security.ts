@@ -9,6 +9,13 @@ declare module 'fastify' {
     interface FastifyInstance {
         jwtAuth: (userGroups: TUserGroup[]) => FastifyAuthFunction
     }
+
+    interface FastifyRequest {
+        authUser: {
+            userId: string,
+            userGroup: TUserGroup
+        }
+    }
 }
 
 const jwtAuthUtility: FastifyPluginAsync = async server => {
@@ -25,6 +32,9 @@ const jwtAuthUtility: FastifyPluginAsync = async server => {
                     userId: string,
                     userGroup: TUserGroup
                 }>(token)
+
+                request.authUser.userId = payload.userId
+                request.authUser.userGroup = payload.userGroup
 
                 if (!userGroups.includes(payload.userGroup))
                     response.status(401).send()
