@@ -33,8 +33,10 @@ const jwtAuthUtility: FastifyPluginAsync = async server => {
                     userGroup: TUserGroup
                 }>(token)
 
-                request.authUser.userId = payload.userId
-                request.authUser.userGroup = payload.userGroup
+                request.authUser = {
+                    userId: payload.userId,
+                    userGroup: payload.userGroup
+                }
 
                 if (!userGroups.includes(payload.userGroup))
                     response.status(401).send()
