@@ -1,7 +1,11 @@
 import fp from 'fastify-plugin'
 import { jwtDecode } from 'jwt-decode'
 import { FastifyAuthFunction } from '@fastify/auth'
-import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
+import {
+    FastifyPluginAsync,
+    FastifyReply,
+    FastifyRequest
+} from 'fastify'
 
 type TUserGroup = 'admin' | 'operator' | 'customer'
 
