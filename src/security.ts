@@ -21,12 +21,12 @@ const jwtAuthUtility: FastifyPluginAsync = async server => {
             }
             else {
                 const token = authorization.replace('Bearer ', '')
-                const decoded = jwtDecode<{
+                const payload = jwtDecode<{
                     userId: string,
                     userGroup: TUserGroup
                 }>(token)
 
-                if (!userGroups.includes(decoded.userGroup))
+                if (!userGroups.includes(payload.userGroup))
                     response.status(401).send()
             }
         }
