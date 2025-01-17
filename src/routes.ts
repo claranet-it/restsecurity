@@ -22,8 +22,7 @@ const routes: FastifyPluginAsync = async server => {
             else if (!checkUser(request.params.id, request.authUser.userId)) {
                 response.status(403).send()
             }
-            else
-                return user
+            else return user
         }
     )
 }
