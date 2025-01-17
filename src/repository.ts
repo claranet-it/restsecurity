@@ -23,3 +23,17 @@ export const findAllOrders = () => {
         }
     ]
 }
+
+export const findUser = (id: string) => {
+    return {
+        id,
+        email: 'mario@rossi.it',
+        name: 'Mario',
+        surname: 'Rossi',
+        birthDate: new Date('1990-07-19 05:25').toUTCString()
+    }
+}
+
+export const checkUser = (userId: string, authUserId: string) => {
+    return userId === authUserId
+}
