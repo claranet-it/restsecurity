@@ -11,7 +11,11 @@ const routes: FastifyPluginAsync = async server => {
 
     server.get<{ Params: { id: string } }>('/api/users/:id',
         {
-            preValidation: server.jwtAuth(['admin', 'operator', 'customer'])
+            preValidation: server.jwtAuth([
+                'admin',
+                'operator',
+                'customer'
+            ])
         },
         async (request, response) => {
             const user = findUser(request.params.id)
@@ -19,7 +23,12 @@ const routes: FastifyPluginAsync = async server => {
             if (!user) {
                 response.status(404).send()
             }
-            else if (!checkUser(request.params.id, request.authUser.userId)) {
+            else if (
+                !checkUser(
+                    request.params.id,
+                    request.authUser.userId
+                )
+            ) {
                 response.status(403).send()
             }
             else return user
