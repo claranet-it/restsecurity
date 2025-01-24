@@ -15,21 +15,20 @@ const routes: FastifyPluginAsync = async server => {
                 'admin',
                 'operator',
                 'customer'
-            ])
+            ]),
+            preHandler: (request, response, next) => {
+                checkUser(
+                    request.params.id,
+                    request.authUser.userId
+                ) ? next() :
+                    response.status(403).send()
+            }
         },
         async (request, response) => {
             const user = findUser(request.params.id)
 
             if (!user) {
                 response.status(404).send()
-            }
-            else if (
-                !checkUser(
-                    request.params.id,
-                    request.authUser.userId
-                )
-            ) {
-                response.status(403).send()
             }
             else return user
         }
@@ -37,21 +36,20 @@ const routes: FastifyPluginAsync = async server => {
 
     server.get<{ Params: { id: string } }>('/api/users/:id/orders',
         {
-            preValidation: server.jwtAuth(['customer'])
+            preValidation: server.jwtAuth(['customer']),
+            preHandler: (request, response, next) => {
+                checkUser(
+                    request.params.id,
+                    request.authUser.userId
+                ) ? next() :
+                    response.status(403).send()
+            }
         },
         async (request, response) => {
             const user = findUser(request.params.id)
 
             if (!user) {
                 response.status(404).send()
-            }
-            else if (
-                !checkUser(
-                    request.params.id,
-                    request.authUser.userId
-                )
-            ) {
-                response.status(403).send()
             }
             else return findOrdersByUser(request.params.id)
         }
