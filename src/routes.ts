@@ -1,5 +1,10 @@
 import { FastifyPluginAsync } from 'fastify'
-import { checkUser, findAllOrders, findOrdersByUser, findUser } from './repository'
+import {
+    checkUser,
+    findAllOrders,
+    findOrdersByUser,
+    findUser
+} from './repository'
 
 const routes: FastifyPluginAsync = async server => {
     server.get('/api/orders',
