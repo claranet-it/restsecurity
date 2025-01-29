@@ -69,3 +69,10 @@ export const findUser = (id: string) => {
 export const checkUser = (userId: string, authUserId: string) => {
     return userId === authUserId
 }
+
+export const createNote = (text: string) => {
+    return {
+        id: 'e488b789-515d-483f-a2ff-15a203ce872c',
+        text
+    }
+}

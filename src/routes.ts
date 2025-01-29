@@ -1,6 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import {
     checkUser,
+    createNote,
     findAllOrders,
     findOrdersByUser,
     findUser
@@ -58,6 +59,13 @@ const routes: FastifyPluginAsync = async server => {
             }
             else return findOrdersByUser(request.params.id)
         }
+    )
+
+    server.post<{ Body: { text: string } }>('/api/notes',
+        {
+            preValidation: server.jwtAuth(['admin']),
+        },
+        async (request) => createNote(request.body.text)
     )
 }
 

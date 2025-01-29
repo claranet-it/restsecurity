@@ -233,4 +233,69 @@ describe('end to end', () => {
             expect(response.statusCode).toBe(403)
         })
     })
+
+    describe('POST /api/notes', () => {
+        it('should response 401 because there is not jwt token to the header', async () => {
+            const response = await server.inject({
+                method: 'POST',
+                path: '/api/notes'
+            })
+
+            expect(response.statusCode).toBe(401)
+        })
+
+        it('should response 200 because the token user is an admin', async () => {
+            const response = await server.inject({
+                method: 'POST',
+                path: '/api/notes',
+                headers: {
+                    authorization: `Bearer ${sign({
+                        userId: 'xxxxx',
+                        userGroup: 'admin'
+                    }, 'yyyyy')}`
+                },
+                body: {
+                    text: 'zzzzz'
+                }
+            })
+
+            expect(response.statusCode).toBe(200)
+        })
+
+        it('should response 401 because the token user is an operator', async () => {
+            const response = await server.inject({
+                method: 'POST',
+                path: '/api/notes',
+                headers: {
+                    authorization: `Bearer ${sign({
+                        userId: 'xxxxx',
+                        userGroup: 'operator'
+                    }, 'yyyyy')}`
+                },
+                body: {
+                    text: 'zzzzz'
+                }
+            })
+
+            expect(response.statusCode).toBe(401)
+        })
+
+        it('should response 401 because the token user is a customer', async () => {
+            const response = await server.inject({
+                method: 'POST',
+                path: '/api/notes',
+                headers: {
+                    authorization: `Bearer ${sign({
+                        userId: 'xxxxx',
+                        userGroup: 'customer'
+                    }, 'yyyyy')}`
+                },
+                body: {
+                    text: 'zzzzz'
+                }
+            })
+
+            expect(response.statusCode).toBe(401)
+        })
+    })
 })
